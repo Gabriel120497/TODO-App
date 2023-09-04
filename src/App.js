@@ -15,16 +15,29 @@ import { CreateTodoButton } from './CreateTodoButton';
 localStorage.setItem('TODOS_V1', JSON.stringify(defaultTodos));
 localStorage.removeItem('TODOS_V1');*/
 
-function App() {
-  const localStorageTodos =localStorage.getItem('TODOS_V1');
-  let parsedTodos;
-  if (!localStorageTodos) {
-    localStorage.setItem('TODOS_V1', JSON.stringify([]))
-    parsedTodos = [];
+function useLocalStorage(itemName, initialValue) {
+
+  const localStorageitem = localStorage.getItem(itemName);
+  let parsedItem;
+  if (!localStorageitem) {
+    localStorage.setItem(itemName, JSON.stringify(initialValue))
+    parsedItem = initialValue;
   } else {
-    parsedTodos = JSON.parse(localStorageTodos);
+    parsedItem = JSON.parse(localStorageitem);
   }
-  const [todos, setTodos] = React.useState(parsedTodos);
+
+  const [item, setItem] = React.useState(parsedItem);
+
+  const saveItem = (newItem) => {
+    localStorage.setItem(itemName, JSON.stringify(newItem))
+    setItem(newItem);
+  };
+  return [item, saveItem];
+}
+
+function App() {
+
+  const [todos, saveTodos] = useLocalStorage('TODOS_V1', []);
   const [searchValue, setSearchValue] = React.useState('');
   const completedTodos = todos.filter(todo => !!todo.completed).length; //La doble negacion '!!' se usa para convertir lo que haya en la variable a un valor booleano
   const totalTodos = todos.length;
@@ -32,10 +45,7 @@ function App() {
     return todo.text.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase());
   });
 
-  const saveTodos = (newTodos)=>{
-    localStorage.setItem('TODOS_V1', JSON.stringify(newTodos))
-    setTodos(newTodos);
-  }
+
 
   const completeTodo = (text) => {
     const newTodos = [...todos];//'...' crea una copia de un objeto en este caso se crea una copia de todos
@@ -58,11 +68,11 @@ function App() {
       <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
       <TodoList>
         {searchedTodo.map(todo => (
-          <TodoItem key={todo.text} 
-          text={todo.text} 
-          completed={todo.completed} 
-          onComplete={() => completeTodo(todo.text)}
-          onDelete={() => deleteTodo(todo.text)}/>
+          <TodoItem key={todo.text}
+            text={todo.text}
+            completed={todo.completed}
+            onComplete={() => completeTodo(todo.text)}
+            onDelete={() => deleteTodo(todo.text)} />
         ))}
       </TodoList>
       <CreateTodoButton />
