@@ -1,0 +1,21 @@
+.loader{
+    margin: 0 0 2em;
+    width: 20%;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto 1em;
+    display: flex;
+    vertical-align: top;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .svg{
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+    display:inline-block;
+    fill: #FF6700;
+    stroke: black;
+  }

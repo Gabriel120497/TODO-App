@@ -1,10 +1,10 @@
 import React from 'react';
 import './CreateTodoButton.css'
 
-function CreateTodoButton() {
+function CreateTodoButton({setOpenModal}) {
     return (
         <button className='createTodoButton'
-        onClick={(event)=>{console.log('hola');}}>+</button>
+        onClick={()=>setOpenModal(state => !state)}>+</button>
     );
 }
 

@@ -15,12 +15,13 @@
     align-items: center;
     height: 64px;
     width: 64px;
-
+    z-index: 1;
     transform: rotate(0);
-    transition: 0.3 ease;
+    
 }
 
-.createTodoButton:hover{
+.createTodoButton:hover {
     background: #3dd5ff;
     transform: rotate(224deg);
+    transition: 0.3 ease;
 }
